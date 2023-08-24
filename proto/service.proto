@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package messenger;
+
+option go_package = "/proto";
+
+
+service Messenger {
+    rpc Send(stream Request) returns (stream Response) {}
+}
+
+message Response {
+    bytes data = 1;
+}
+
+message Request {
+    int32 id = 1;
+    bytes data = 2;
+}
