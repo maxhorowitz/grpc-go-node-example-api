@@ -1,4 +1,4 @@
-module github.com/maxhorowitz/hash-safe-api
+module github.com/maxhorowitz/grpc-go-node-example-api
 
 go 1.18
 
