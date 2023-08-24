@@ -1,1 +1,1 @@
-# hash-safe-api
+# grpc-go-node-example-api
