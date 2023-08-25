@@ -28,8 +28,8 @@ function deserialize_messenger_Res(buffer_arg) {
 
 
 var MessengerService = exports.MessengerService = {
-  send: {
-    path: '/messenger.Messenger/Send',
+  connect: {
+    path: '/messenger.Messenger/Connect',
     requestStream: true,
     responseStream: true,
     requestType: proto_service_pb.Req,

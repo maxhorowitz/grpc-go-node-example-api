@@ -5,7 +5,7 @@ package messenger;
 option go_package = "proto/";
 
 service Messenger {
-    rpc Send(stream Req) returns (stream Res) {}
+    rpc Connect(stream Req) returns (stream Res) {}
 }
 
 message Res {

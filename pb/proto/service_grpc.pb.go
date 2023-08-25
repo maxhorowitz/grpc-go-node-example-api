@@ -8,7 +8,6 @@ package proto
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -20,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Messenger_Send_FullMethodName = "/messenger.Messenger/Send"
+	Messenger_Connect_FullMethodName = "/messenger.Messenger/Connect"
 )
 
 // MessengerClient is the client API for Messenger service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MessengerClient interface {
-	Send(ctx context.Context, opts ...grpc.CallOption) (Messenger_SendClient, error)
+	Connect(ctx context.Context, opts ...grpc.CallOption) (Messenger_ConnectClient, error)
 }
 
 type messengerClient struct {
@@ -38,30 +37,30 @@ func NewMessengerClient(cc grpc.ClientConnInterface) MessengerClient {
 	return &messengerClient{cc}
 }
 
-func (c *messengerClient) Send(ctx context.Context, opts ...grpc.CallOption) (Messenger_SendClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Messenger_ServiceDesc.Streams[0], Messenger_Send_FullMethodName, opts...)
+func (c *messengerClient) Connect(ctx context.Context, opts ...grpc.CallOption) (Messenger_ConnectClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Messenger_ServiceDesc.Streams[0], Messenger_Connect_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &messengerSendClient{stream}
+	x := &messengerConnectClient{stream}
 	return x, nil
 }
 
-type Messenger_SendClient interface {
+type Messenger_ConnectClient interface {
 	Send(*Req) error
 	Recv() (*Res, error)
 	grpc.ClientStream
 }
 
-type messengerSendClient struct {
+type messengerConnectClient struct {
 	grpc.ClientStream
 }
 
-func (x *messengerSendClient) Send(m *Req) error {
+func (x *messengerConnectClient) Send(m *Req) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *messengerSendClient) Recv() (*Res, error) {
+func (x *messengerConnectClient) Recv() (*Res, error) {
 	m := new(Res)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -73,7 +72,7 @@ func (x *messengerSendClient) Recv() (*Res, error) {
 // All implementations must embed UnimplementedMessengerServer
 // for forward compatibility
 type MessengerServer interface {
-	Send(Messenger_SendServer) error
+	Connect(Messenger_ConnectServer) error
 	mustEmbedUnimplementedMessengerServer()
 }
 
@@ -81,8 +80,8 @@ type MessengerServer interface {
 type UnimplementedMessengerServer struct {
 }
 
-func (UnimplementedMessengerServer) Send(Messenger_SendServer) error {
-	return status.Errorf(codes.Unimplemented, "method Send not implemented")
+func (UnimplementedMessengerServer) Connect(Messenger_ConnectServer) error {
+	return status.Errorf(codes.Unimplemented, "method Connect not implemented")
 }
 func (UnimplementedMessengerServer) mustEmbedUnimplementedMessengerServer() {}
 
@@ -97,25 +96,25 @@ func RegisterMessengerServer(s grpc.ServiceRegistrar, srv MessengerServer) {
 	s.RegisterService(&Messenger_ServiceDesc, srv)
 }
 
-func _Messenger_Send_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(MessengerServer).Send(&messengerSendServer{stream})
+func _Messenger_Connect_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(MessengerServer).Connect(&messengerConnectServer{stream})
 }
 
-type Messenger_SendServer interface {
+type Messenger_ConnectServer interface {
 	Send(*Res) error
 	Recv() (*Req, error)
 	grpc.ServerStream
 }
 
-type messengerSendServer struct {
+type messengerConnectServer struct {
 	grpc.ServerStream
 }
 
-func (x *messengerSendServer) Send(m *Res) error {
+func (x *messengerConnectServer) Send(m *Res) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *messengerSendServer) Recv() (*Req, error) {
+func (x *messengerConnectServer) Recv() (*Req, error) {
 	m := new(Req)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -132,8 +131,8 @@ var Messenger_ServiceDesc = grpc.ServiceDesc{
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "Send",
-			Handler:       _Messenger_Send_Handler,
+			StreamName:    "Connect",
+			Handler:       _Messenger_Connect_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},
