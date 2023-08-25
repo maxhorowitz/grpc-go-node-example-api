@@ -2,12 +2,13 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v4.23.4
-// source: service.proto
+// source: proto/service.proto
 
 package proto
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -47,8 +48,8 @@ func (c *messengerClient) Send(ctx context.Context, opts ...grpc.CallOption) (Me
 }
 
 type Messenger_SendClient interface {
-	Send(*Request) error
-	Recv() (*Response, error)
+	Send(*Req) error
+	Recv() (*Res, error)
 	grpc.ClientStream
 }
 
@@ -56,12 +57,12 @@ type messengerSendClient struct {
 	grpc.ClientStream
 }
 
-func (x *messengerSendClient) Send(m *Request) error {
+func (x *messengerSendClient) Send(m *Req) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *messengerSendClient) Recv() (*Response, error) {
-	m := new(Response)
+func (x *messengerSendClient) Recv() (*Res, error) {
+	m := new(Res)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -101,8 +102,8 @@ func _Messenger_Send_Handler(srv interface{}, stream grpc.ServerStream) error {
 }
 
 type Messenger_SendServer interface {
-	Send(*Response) error
-	Recv() (*Request, error)
+	Send(*Res) error
+	Recv() (*Req, error)
 	grpc.ServerStream
 }
 
@@ -110,12 +111,12 @@ type messengerSendServer struct {
 	grpc.ServerStream
 }
 
-func (x *messengerSendServer) Send(m *Response) error {
+func (x *messengerSendServer) Send(m *Res) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *messengerSendServer) Recv() (*Request, error) {
-	m := new(Request)
+func (x *messengerSendServer) Recv() (*Req, error) {
+	m := new(Req)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -137,5 +138,5 @@ var Messenger_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "service.proto",
+	Metadata: "proto/service.proto",
 }
