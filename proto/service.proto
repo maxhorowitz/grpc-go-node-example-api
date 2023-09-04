@@ -1,17 +1,17 @@
 syntax = "proto3";
 
-package messenger;
+package registry;
 
 option go_package = "proto/";
 
-service Messenger {
-    rpc Connect(Request) returns (Response) {}
+service Registry {
+    rpc GetLast(FirstName) returns (LastName) {}
 }
 
-message Response {
+message FirstName {
     bytes data = 1;
 }
 
-message Request {
+message LastName {
     bytes data = 1;
 }

@@ -4,41 +4,41 @@
 var grpc = require('@grpc/grpc-js');
 var proto_service_pb = require('../proto/service_pb.js');
 
-function serialize_messenger_Request(arg) {
-  if (!(arg instanceof proto_service_pb.Request)) {
-    throw new Error('Expected argument of type messenger.Request');
+function serialize_registry_FirstName(arg) {
+  if (!(arg instanceof proto_service_pb.FirstName)) {
+    throw new Error('Expected argument of type registry.FirstName');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_messenger_Request(buffer_arg) {
-  return proto_service_pb.Request.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_registry_FirstName(buffer_arg) {
+  return proto_service_pb.FirstName.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_messenger_Response(arg) {
-  if (!(arg instanceof proto_service_pb.Response)) {
-    throw new Error('Expected argument of type messenger.Response');
+function serialize_registry_LastName(arg) {
+  if (!(arg instanceof proto_service_pb.LastName)) {
+    throw new Error('Expected argument of type registry.LastName');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_messenger_Response(buffer_arg) {
-  return proto_service_pb.Response.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_registry_LastName(buffer_arg) {
+  return proto_service_pb.LastName.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
-var MessengerService = exports.MessengerService = {
-  connect: {
-    path: '/messenger.Messenger/Connect',
+var RegistryService = exports.RegistryService = {
+  getLast: {
+    path: '/registry.Registry/GetLast',
     requestStream: false,
     responseStream: false,
-    requestType: proto_service_pb.Request,
-    responseType: proto_service_pb.Response,
-    requestSerialize: serialize_messenger_Request,
-    requestDeserialize: deserialize_messenger_Request,
-    responseSerialize: serialize_messenger_Response,
-    responseDeserialize: deserialize_messenger_Response,
+    requestType: proto_service_pb.FirstName,
+    responseType: proto_service_pb.LastName,
+    requestSerialize: serialize_registry_FirstName,
+    requestDeserialize: deserialize_registry_FirstName,
+    responseSerialize: serialize_registry_LastName,
+    responseDeserialize: deserialize_registry_LastName,
   },
 };
 
-exports.MessengerClient = grpc.makeGenericClientConstructor(MessengerService);
+exports.RegistryClient = grpc.makeGenericClientConstructor(RegistryService);

@@ -19,89 +19,89 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Messenger_Connect_FullMethodName = "/messenger.Messenger/Connect"
+	Registry_GetLast_FullMethodName = "/registry.Registry/GetLast"
 )
 
-// MessengerClient is the client API for Messenger service.
+// RegistryClient is the client API for Registry service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type MessengerClient interface {
-	Connect(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+type RegistryClient interface {
+	GetLast(ctx context.Context, in *FirstName, opts ...grpc.CallOption) (*LastName, error)
 }
 
-type messengerClient struct {
+type registryClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewMessengerClient(cc grpc.ClientConnInterface) MessengerClient {
-	return &messengerClient{cc}
+func NewRegistryClient(cc grpc.ClientConnInterface) RegistryClient {
+	return &registryClient{cc}
 }
 
-func (c *messengerClient) Connect(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
-	out := new(Response)
-	err := c.cc.Invoke(ctx, Messenger_Connect_FullMethodName, in, out, opts...)
+func (c *registryClient) GetLast(ctx context.Context, in *FirstName, opts ...grpc.CallOption) (*LastName, error) {
+	out := new(LastName)
+	err := c.cc.Invoke(ctx, Registry_GetLast_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// MessengerServer is the server API for Messenger service.
-// All implementations must embed UnimplementedMessengerServer
+// RegistryServer is the server API for Registry service.
+// All implementations must embed UnimplementedRegistryServer
 // for forward compatibility
-type MessengerServer interface {
-	Connect(context.Context, *Request) (*Response, error)
-	mustEmbedUnimplementedMessengerServer()
+type RegistryServer interface {
+	GetLast(context.Context, *FirstName) (*LastName, error)
+	mustEmbedUnimplementedRegistryServer()
 }
 
-// UnimplementedMessengerServer must be embedded to have forward compatible implementations.
-type UnimplementedMessengerServer struct {
+// UnimplementedRegistryServer must be embedded to have forward compatible implementations.
+type UnimplementedRegistryServer struct {
 }
 
-func (UnimplementedMessengerServer) Connect(context.Context, *Request) (*Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Connect not implemented")
+func (UnimplementedRegistryServer) GetLast(context.Context, *FirstName) (*LastName, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLast not implemented")
 }
-func (UnimplementedMessengerServer) mustEmbedUnimplementedMessengerServer() {}
+func (UnimplementedRegistryServer) mustEmbedUnimplementedRegistryServer() {}
 
-// UnsafeMessengerServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to MessengerServer will
+// UnsafeRegistryServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to RegistryServer will
 // result in compilation errors.
-type UnsafeMessengerServer interface {
-	mustEmbedUnimplementedMessengerServer()
+type UnsafeRegistryServer interface {
+	mustEmbedUnimplementedRegistryServer()
 }
 
-func RegisterMessengerServer(s grpc.ServiceRegistrar, srv MessengerServer) {
-	s.RegisterService(&Messenger_ServiceDesc, srv)
+func RegisterRegistryServer(s grpc.ServiceRegistrar, srv RegistryServer) {
+	s.RegisterService(&Registry_ServiceDesc, srv)
 }
 
-func _Messenger_Connect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Request)
+func _Registry_GetLast_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FirstName)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MessengerServer).Connect(ctx, in)
+		return srv.(RegistryServer).GetLast(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Messenger_Connect_FullMethodName,
+		FullMethod: Registry_GetLast_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MessengerServer).Connect(ctx, req.(*Request))
+		return srv.(RegistryServer).GetLast(ctx, req.(*FirstName))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Messenger_ServiceDesc is the grpc.ServiceDesc for Messenger service.
+// Registry_ServiceDesc is the grpc.ServiceDesc for Registry service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Messenger_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "messenger.Messenger",
-	HandlerType: (*MessengerServer)(nil),
+var Registry_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "registry.Registry",
+	HandlerType: (*RegistryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Connect",
-			Handler:    _Messenger_Connect_Handler,
+			MethodName: "GetLast",
+			Handler:    _Registry_GetLast_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
