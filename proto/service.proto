@@ -5,14 +5,13 @@ package messenger;
 option go_package = "proto/";
 
 service Messenger {
-    rpc Connect(stream Req) returns (stream Res) {}
+    rpc Connect(Request) returns (Response) {}
 }
 
-message Res {
+message Response {
     bytes data = 1;
 }
 
-message Req {
-    int32 id = 1;
+message Request {
     bytes data = 2;
 }

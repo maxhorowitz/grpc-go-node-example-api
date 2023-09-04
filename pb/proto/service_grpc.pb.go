@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MessengerClient interface {
-	Connect(ctx context.Context, opts ...grpc.CallOption) (Messenger_ConnectClient, error)
+	Connect(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 }
 
 type messengerClient struct {
@@ -37,42 +37,20 @@ func NewMessengerClient(cc grpc.ClientConnInterface) MessengerClient {
 	return &messengerClient{cc}
 }
 
-func (c *messengerClient) Connect(ctx context.Context, opts ...grpc.CallOption) (Messenger_ConnectClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Messenger_ServiceDesc.Streams[0], Messenger_Connect_FullMethodName, opts...)
+func (c *messengerClient) Connect(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
+	err := c.cc.Invoke(ctx, Messenger_Connect_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &messengerConnectClient{stream}
-	return x, nil
-}
-
-type Messenger_ConnectClient interface {
-	Send(*Req) error
-	Recv() (*Res, error)
-	grpc.ClientStream
-}
-
-type messengerConnectClient struct {
-	grpc.ClientStream
-}
-
-func (x *messengerConnectClient) Send(m *Req) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *messengerConnectClient) Recv() (*Res, error) {
-	m := new(Res)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+	return out, nil
 }
 
 // MessengerServer is the server API for Messenger service.
 // All implementations must embed UnimplementedMessengerServer
 // for forward compatibility
 type MessengerServer interface {
-	Connect(Messenger_ConnectServer) error
+	Connect(context.Context, *Request) (*Response, error)
 	mustEmbedUnimplementedMessengerServer()
 }
 
@@ -80,8 +58,8 @@ type MessengerServer interface {
 type UnimplementedMessengerServer struct {
 }
 
-func (UnimplementedMessengerServer) Connect(Messenger_ConnectServer) error {
-	return status.Errorf(codes.Unimplemented, "method Connect not implemented")
+func (UnimplementedMessengerServer) Connect(context.Context, *Request) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Connect not implemented")
 }
 func (UnimplementedMessengerServer) mustEmbedUnimplementedMessengerServer() {}
 
@@ -96,30 +74,22 @@ func RegisterMessengerServer(s grpc.ServiceRegistrar, srv MessengerServer) {
 	s.RegisterService(&Messenger_ServiceDesc, srv)
 }
 
-func _Messenger_Connect_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(MessengerServer).Connect(&messengerConnectServer{stream})
-}
-
-type Messenger_ConnectServer interface {
-	Send(*Res) error
-	Recv() (*Req, error)
-	grpc.ServerStream
-}
-
-type messengerConnectServer struct {
-	grpc.ServerStream
-}
-
-func (x *messengerConnectServer) Send(m *Res) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *messengerConnectServer) Recv() (*Req, error) {
-	m := new(Req)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
+func _Messenger_Connect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Request)
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	return m, nil
+	if interceptor == nil {
+		return srv.(MessengerServer).Connect(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Messenger_Connect_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessengerServer).Connect(ctx, req.(*Request))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 // Messenger_ServiceDesc is the grpc.ServiceDesc for Messenger service.
@@ -128,14 +98,12 @@ func (x *messengerConnectServer) Recv() (*Req, error) {
 var Messenger_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "messenger.Messenger",
 	HandlerType: (*MessengerServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams: []grpc.StreamDesc{
+	Methods: []grpc.MethodDesc{
 		{
-			StreamName:    "Connect",
-			Handler:       _Messenger_Connect_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
+			MethodName: "Connect",
+			Handler:    _Messenger_Connect_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "proto/service.proto",
 }
