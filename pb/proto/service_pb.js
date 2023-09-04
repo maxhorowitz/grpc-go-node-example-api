@@ -97,7 +97,7 @@ proto.registry.FirstName.prototype.toObject = function(opt_includeInstance) {
  */
 proto.registry.FirstName.toObject = function(includeInstance, msg) {
   var f, obj = {
-    data: msg.getData_asB64()
+    name: msg.getName_asB64()
   };
 
   if (includeInstance) {
@@ -136,7 +136,7 @@ proto.registry.FirstName.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setData(value);
+      msg.setName(value);
       break;
     default:
       reader.skipField();
@@ -167,7 +167,7 @@ proto.registry.FirstName.prototype.serializeBinary = function() {
  */
 proto.registry.FirstName.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getData_asU8();
+  f = message.getName_asU8();
   if (f.length > 0) {
     writer.writeBytes(
       1,
@@ -178,35 +178,35 @@ proto.registry.FirstName.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional bytes data = 1;
+ * optional bytes name = 1;
  * @return {!(string|Uint8Array)}
  */
-proto.registry.FirstName.prototype.getData = function() {
+proto.registry.FirstName.prototype.getName = function() {
   return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes data = 1;
- * This is a type-conversion wrapper around `getData()`
+ * optional bytes name = 1;
+ * This is a type-conversion wrapper around `getName()`
  * @return {string}
  */
-proto.registry.FirstName.prototype.getData_asB64 = function() {
+proto.registry.FirstName.prototype.getName_asB64 = function() {
   return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getData()));
+      this.getName()));
 };
 
 
 /**
- * optional bytes data = 1;
+ * optional bytes name = 1;
  * Note that Uint8Array is not supported on all browsers.
  * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getData()`
+ * This is a type-conversion wrapper around `getName()`
  * @return {!Uint8Array}
  */
-proto.registry.FirstName.prototype.getData_asU8 = function() {
+proto.registry.FirstName.prototype.getName_asU8 = function() {
   return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getData()));
+      this.getName()));
 };
 
 
@@ -214,7 +214,7 @@ proto.registry.FirstName.prototype.getData_asU8 = function() {
  * @param {!(string|Uint8Array)} value
  * @return {!proto.registry.FirstName} returns this
  */
-proto.registry.FirstName.prototype.setData = function(value) {
+proto.registry.FirstName.prototype.setName = function(value) {
   return jspb.Message.setProto3BytesField(this, 1, value);
 };
 
@@ -251,7 +251,7 @@ proto.registry.LastName.prototype.toObject = function(opt_includeInstance) {
  */
 proto.registry.LastName.toObject = function(includeInstance, msg) {
   var f, obj = {
-    data: msg.getData_asB64()
+    name: msg.getName_asB64()
   };
 
   if (includeInstance) {
@@ -290,7 +290,7 @@ proto.registry.LastName.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setData(value);
+      msg.setName(value);
       break;
     default:
       reader.skipField();
@@ -321,7 +321,7 @@ proto.registry.LastName.prototype.serializeBinary = function() {
  */
 proto.registry.LastName.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getData_asU8();
+  f = message.getName_asU8();
   if (f.length > 0) {
     writer.writeBytes(
       1,
@@ -332,35 +332,35 @@ proto.registry.LastName.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional bytes data = 1;
+ * optional bytes name = 1;
  * @return {!(string|Uint8Array)}
  */
-proto.registry.LastName.prototype.getData = function() {
+proto.registry.LastName.prototype.getName = function() {
   return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes data = 1;
- * This is a type-conversion wrapper around `getData()`
+ * optional bytes name = 1;
+ * This is a type-conversion wrapper around `getName()`
  * @return {string}
  */
-proto.registry.LastName.prototype.getData_asB64 = function() {
+proto.registry.LastName.prototype.getName_asB64 = function() {
   return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getData()));
+      this.getName()));
 };
 
 
 /**
- * optional bytes data = 1;
+ * optional bytes name = 1;
  * Note that Uint8Array is not supported on all browsers.
  * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getData()`
+ * This is a type-conversion wrapper around `getName()`
  * @return {!Uint8Array}
  */
-proto.registry.LastName.prototype.getData_asU8 = function() {
+proto.registry.LastName.prototype.getName_asU8 = function() {
   return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getData()));
+      this.getName()));
 };
 
 
@@ -368,7 +368,7 @@ proto.registry.LastName.prototype.getData_asU8 = function() {
  * @param {!(string|Uint8Array)} value
  * @return {!proto.registry.LastName} returns this
  */
-proto.registry.LastName.prototype.setData = function(value) {
+proto.registry.LastName.prototype.setName = function(value) {
   return jspb.Message.setProto3BytesField(this, 1, value);
 };
 
