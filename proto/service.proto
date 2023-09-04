@@ -9,9 +9,9 @@ service Registry {
 }
 
 message FirstName {
-    bytes data = 1;
+    bytes name = 1;
 }
 
 message LastName {
-    bytes data = 1;
+    bytes name = 1;
 }
